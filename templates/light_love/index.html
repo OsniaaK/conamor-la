@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Invitación XV Años">
+    <title>XV Años</title>
+    
+    <!-- Librerías externas vía CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Pantalla de validación de invitado (condicional) -->
+    <div id="pantallaValidacion" class="pantalla-validacion hidden">
+        <div class="validacion-container">
+            <div class="validacion-content">
+                <h1 id="validacionTitulo"></h1>
+                <p id="validacionSubtitulo"></p>
+                <div class="validacion-form">
+                    <input 
+                        type="text" 
+                        id="inputInvitado" 
+                        placeholder="Ingresa tu número de invitado"
+                        maxlength="10"
+                        autocomplete="off"
+                    >
+                    <button id="btnValidar" class="btn-primary">Ingresar</button>
+                </div>
+                <p id="mensajeError" class="error-message hidden"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de bienvenida (animación) -->
+    <div id="pantallaBienvenida" class="pantalla-bienvenida hidden">
+        <div class="bienvenida-content">
+            <h1 id="bienvenidaNombre"></h1>
+            <p id="bienvenidaMesa"></p>
+        </div>
+    </div>
+
+    <!-- Landing page principal -->
+    <div id="landingPrincipal" class="landing-principal hidden">
+        <!-- Hero Section -->
+        <section id="hero" class="hero">
+            <div class="hero-content">
+                <h1 id="heroNombre" class="hero-nombre" data-editable="nombre" data-field="nombre"></h1>
+                <p id="heroSubtitulo" class="hero-subtitulo" data-editable="subtitulo" data-field="subtitulo"></p>
+                <div id="heroMesa" class="hero-mesa hidden">
+                    <span class="mesa-label"></span>
+                    <span class="mesa-numero"></span>
+                </div>
+            </div>
+            <div class="hero-decoration">
+                <div class="flower flower-1"></div>
+                <div class="flower flower-2"></div>
+                <div class="flower flower-3"></div>
+            </div>
+        </section>
+
+        <!-- Frase Section -->
+        <section id="frase" class="frase-section">
+            <div class="frase-content">
+                <p id="fraseTexto" class="frase-texto" data-editable="frase" data-field="frase"></p>
+            </div>
+        </section>
+
+        <!-- Contador Regresivo -->
+        <section id="contador" class="contador-section">
+            <div class="contador-container">
+                <h2 class="contador-titulo">Faltan</h2>
+                <div class="contador-wrapper">
+                    <div class="contador-item">
+                        <span id="contadorDias" class="contador-numero">00</span>
+                        <span id="labelDias" class="contador-label"></span>
+                    </div>
+                    <div class="contador-item">
+                        <span id="contadorHoras" class="contador-numero">00</span>
+                        <span id="labelHoras" class="contador-label"></span>
+                    </div>
+                    <div class="contador-item">
+                        <span id="contadorMinutos" class="contador-numero">00</span>
+                        <span id="labelMinutos" class="contador-label"></span>
+                    </div>
+                    <div class="contador-item">
+                        <span id="contadorSegundos" class="contador-numero">00</span>
+                        <span id="labelSegundos" class="contador-label"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Evento Section -->
+        <section id="evento" class="evento-section">
+            <div class="evento-container">
+                <h2 id="eventoTitulo" class="section-titulo"></h2>
+                <div class="evento-info">
+                    <div class="evento-item">
+                        <div class="evento-icon">📅</div>
+                        <div class="evento-details">
+                            <h3>Fecha</h3>
+                            <p id="eventoFecha" data-editable="fecha" data-field="fecha"></p>
+                            <p id="eventoHora" data-editable="hora" data-field="hora"></p>
+                        </div>
+                    </div>
+                    <div class="evento-item">
+                        <div class="evento-icon">📍</div>
+                        <div class="evento-details">
+                            <h3>Lugar</h3>
+                            <p id="eventoLugar" data-editable="lugar" data-field="ubicacion.nombre"></p>
+                            <p id="eventoDireccion" data-editable="direccion" data-field="ubicacion.direccion"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="evento-botones">
+                    <a id="btnGoogleMaps" href="#" target="_blank" class="btn-secondary">
+                        <span class="btn-icon">🗺️</span>
+                        <span class="btn-text">Cómo llegar</span>
+                    </a>
+                    <a id="btnCalendario" href="#" target="_blank" class="btn-secondary">
+                        <span class="btn-icon">📆</span>
+                        <span class="btn-text">Agendar</span>
+                    </a>
+                    <a id="btnConfirmar" href="#" target="_blank" class="btn-primary">
+                        <span class="btn-icon">✓</span>
+                        <span class="btn-text">Confirmar</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Información de Mesa (condicional) -->
+        <section id="infoMesa" class="mesa-section hidden">
+            <div class="mesa-container">
+                <h2 class="section-titulo">Tu Mesa</h2>
+                <div class="mesa-info">
+                    <div class="mesa-card">
+                        <span class="mesa-card-numero"></span>
+                        <span class="mesa-card-nombre"></span>
+                    </div>
+                    <div class="mesa-companeros">
+                        <h3>Compañeros de mesa</h3>
+                        <ul id="listaCompaneros" class="companeros-lista"></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Galería Section -->
+        <section id="galeria" class="galeria-section">
+            <div class="galeria-container">
+                <h2 id="galeriaTitulo" class="section-titulo"></h2>
+                <div class="swiper galeria-swiper">
+                    <div class="swiper-wrapper" id="galeriaWrapper">
+                        <!-- Las imágenes se cargan dinámicamente desde JS -->
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Spotify Section -->
+        <section id="spotify" class="spotify-section hidden">
+            <div class="spotify-container">
+                <h2 id="spotifyTitulo" class="section-titulo"></h2>
+                <div class="spotify-embed">
+                    <iframe id="spotifyIframe" style="border-radius:12px" src="" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dress Code Section -->
+        <section id="dresscode" class="dresscode-section hidden">
+            <div class="dresscode-container">
+                <h2 id="dresscodeTitulo" class="section-titulo"></h2>
+                <div class="dresscode-content">
+                    <p id="dresscodeDescripcion" class="dresscode-descripcion" data-editable="dresscode.descripcion" data-field="dressCode.descripcion"></p>
+                    <div class="dresscode-colores">
+                        <h3>Paleta de colores sugeridos</h3>
+                        <div id="dresscodePaleta" class="colores-paleta">
+                            <!-- Los colores se cargan dinámicamente -->
+                        </div>
+                    </div>
+                    <p id="dresscodeNota" class="dresscode-nota" data-editable="dresscode.nota" data-field="dressCode.nota"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Regalos Section -->
+        <section id="regalos" class="regalos-section hidden">
+            <div class="regalos-container">
+                <h2 id="regalosTitulo" class="section-titulo"></h2>
+                <div class="regalos-content">
+                    <p id="regalosDescripcion" class="regalos-descripcion" data-editable="regalos.descripcion" data-field="regalos.descripcion"></p>
+                    <div id="regalosCuentas" class="regalos-cuentas">
+                        <!-- Las cuentas se cargan dinámicamente -->
+                    </div>
+                    <p id="regalosMensajeFinal" class="regalos-mensaje-final" data-editable="regalos.mensajeFinal" data-field="regalos.mensajeFinal"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Instagram Section -->
+        <section id="instagram" class="instagram-section hidden">
+            <div class="instagram-container">
+                <h2 class="section-titulo">Instagram</h2>
+                <div class="instagram-content">
+                    <a id="instagramLink" href="#" target="_blank" class="instagram-link">
+                        <span class="instagram-icon">📷</span>
+                        <span class="instagram-handle"></span>
+                    </a>
+                    <p id="instagramHashtag" class="instagram-hashtag"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="footer" class="footer">
+            <div class="footer-content">
+                <button id="btnCambiarInvitado" class="btn-cambiar-invitado hidden">Cambiar invitado</button>
+                <p>Hecho con ❤️ por <a target="_blank" href="https://www.instagram.com/laugsuarez_/">Lau G Suarez</a></p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+    
+    <!-- Configuración -->
+    <script src="js/data.js"></script>
+    <script src="js/invitados.js"></script>
+    
+    <!-- Módulos -->
+    <script src="js/modules/utilidades.js"></script>
+    <script src="js/modules/validacion.js"></script>
+    <script src="js/modules/contenido.js"></script>
+    <script src="js/modules/galeria.js"></script>
+    <script src="js/modules/contador.js"></script>
+    <script src="js/modules/animaciones.js"></script>
+    <script src="js/modules/editor.js"></script>
+
+    <!-- Aplicación principal -->
+    <script src="js/app.js"></script>
+
+    <!-- Script para enviar altura al padre (con debounce y delays progresivos) -->
+    <script>
+        let timeout;
+        const sendHeight = () => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                const height = document.body.scrollHeight;
+                window.parent.postMessage({ type: 'resize', height }, '*');
+            }, 100);
+        };
+
+        // Enviar altura con delays progresivos para asegurar que el contenido dinámico se cargue
+        window.addEventListener('load', () => {
+            setTimeout(sendHeight, 500);
+            setTimeout(sendHeight, 1000);
+            setTimeout(sendHeight, 2000);
+            setTimeout(sendHeight, 3000);
+        });
+
+        window.addEventListener('resize', sendHeight);
+    </script>
+
+    <!-- Medidas de seguridad -->
+    <script>
+        let isEditingMode = false;
+
+        // Listen for editing mode activation
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'activarEdicion') {
+                isEditingMode = true;
+            }
+            if (event.data && event.data.type === 'desactivarEdicion') {
+                isEditingMode = false;
+            }
+        });
+
+        // Only block security measures when NOT in editing mode
+        document.addEventListener('contextmenu', e => {
+            if (!isEditingMode) e.preventDefault();
+        });
+
+        document.addEventListener('selectstart', e => {
+            if (!isEditingMode && !e.target.isContentEditable) e.preventDefault();
+        });
+
+        document.addEventListener('copy', e => {
+            if (!isEditingMode && !e.target.isContentEditable) e.preventDefault();
+        });
+
+        document.addEventListener('cut', e => {
+            if (!isEditingMode && !e.target.isContentEditable) e.preventDefault();
+        });
+
+        document.addEventListener('keydown', e => {
+            if (!isEditingMode && e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
