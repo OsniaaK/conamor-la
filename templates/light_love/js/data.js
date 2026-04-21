@@ -88,7 +88,7 @@ const data = {
         activo: true,
         usuario: "Tu Instagram",
         url: "https://instagram.com",
-        hashtag: "#MariaSofia15"
+        hashtag: "#MISXV"
     },
     
     // ========== SPOTIFY PLAYLIST ==========
