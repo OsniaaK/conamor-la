@@ -86,7 +86,7 @@ const data = {
     // ========== INSTAGRAM ==========
     instagram: {
         activo: true,
-        usuario: "maria_sofia_xv",
+        usuario: "Tu Instagram",
         url: "https://instagram.com",
         hashtag: "#MariaSofia15"
     },
